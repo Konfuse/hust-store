@@ -82,7 +82,7 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/project">蒸发波导</a></li>
+                <li class="active"><a href="/p_test">蒸发波导</a></li>
                 <li><a href="/dkbd">低空波导</a></li>
                 <li><a href="/ld">雷达</a></li>
                 <li><a href="/js">预测及计算</a></li>
@@ -150,162 +150,169 @@
                         },
                         "json"
                     )
+                    heatmap();
                 }
             </script>
         </div>
         <div class="col-md-10" id="container"></div>
         <script type="text/javascript">
-            var dom = document.getElementById("container");
-            var myChart = echarts.init(dom);
-            var app = {};
-            option = null;
-            app.title = '蒸发波导热力图';
-            var Lon = ['100','101','102','103','104','105','106','107','108','109','110'];
-            var Lat = ['0','1','2','3','4','5','6','7','8','9','10'];
-            var str;
-            str = document.getElementById("heatmap_0");
-            str=str.replace("[","");
-            str=str.replace("]","");
-            str=str.split(",");
-            var value0=new Array();
-            for (var j =0;j<str.length;j++){
-                var obj = JSON.parse(str[j]);
-                value0[j]=new Array();
-                value0[j][0]=parseInt(obj.get("lon"))-100;
-                value0[j][1]=parseInt(obj.get("lat"));
-                value0[j][2]=parseInt(obj.get("value"));
-            }
-            str = document.getElementById("heatmap_6");
-            str=str.replace("[","");
-            str=str.replace("]","");
-            str=str.split(",");
-            var value6=new Array();
-            for (var j =0;j<str.length;j++){
-                var obj = JSON.parse(str[j]);
-                value6[j]=new Array();
-                value6[j][0]=parseInt(obj.get("lon"))-100;
-                value6[j][1]=parseInt(obj.get("lat"));
-                value6[j][2]=parseInt(obj.get("value"));
-            }
-            str = document.getElementById("heatmap_12");
-            str=str.replace("[","");
-            str=str.replace("]","");
-            str=str.split(",");
-            var value12=new Array();
-            for (var j =0;j<str.length;j++){
-                var obj = JSON.parse(str[j]);
-                value12[j]=new Array();
-                value12[j][0]=parseInt(obj.get("lon"))-100;
-                value12[j][1]=parseInt(obj.get("lat"));
-                value12[j][2]=parseInt(obj.get("value"));
-            }
-            str = document.getElementById("heatmap_18");
-            str=str.replace("[","");
-            str=str.replace("]","");
-            str=str.split(",");
-            var value18=new Array();
-            for (var j =0;j<str.length;j++){
-                var obj = JSON.parse(str[j]);
-                value18[j]=new Array();
-                value18[j][0]=parseInt(obj.get("lon"))-100;
-                value18[j][1]=parseInt(obj.get("lat"));
-                value18[j][2]=parseInt(obj.get("value"));
-            }
-            option = {
-                baseOption:{
-                    timeline:{
-                        axisType:'category',
-                        autoPlay:false,
-                        playInterval:1000,
-                        data:['0','6','12','18'],
-                        label:{
-                            formatter : function (s) {
-                                return s+"点";
-                            }
+            function heatmap() {
+                var dom = document.getElementById("container");
+                var myChart = echarts.init(dom);
+                var app = {};
+                option = null;
+                app.title = '蒸发波导热力图';
+                var Lon = ['100','101','102','103','104','105','106','107','108','109','110'];
+                var Lat = ['0','1','2','3','4','5','6','7','8','9','10'];
+                var str;
+                str = document.getElementById("heatmap_0");
+                str = str.innerHTML;
+                str=str.replace("[","");
+                str=str.replace("]","");
+                str=str.split(",");
+                var value0=new Array();
+                for (var j =0;j<str.length;j++){
+                    var obj = JSON.parse(str[j]);
+                    value0[j]=new Array();
+                    value0[j][0]=parseInt(obj.get("lon"))-100;
+                    value0[j][1]=parseInt(obj.get("lat"));
+                    value0[j][2]=parseInt(obj.get("value"));
+                }
+                str = document.getElementById("heatmap_0");
+                str = str.innerHTML;
+                str=str.replace("[","");
+                str=str.replace("]","");
+                str=str.split(",");
+                var value6=new Array();
+                for (var j =0;j<str.length;j++){
+                    var obj = JSON.parse(str[j]);
+                    value6[j]=new Array();
+                    value6[j][0]=parseInt(obj.get("lon"))-100;
+                    value6[j][1]=parseInt(obj.get("lat"));
+                    value6[j][2]=parseInt(obj.get("value"));
+                }
+                str = document.getElementById("heatmap_0");
+                str = str.innerHTML;
+                str=str.replace("[","");
+                str=str.replace("]","");
+                str=str.split(",");
+                var value12=new Array();
+                for (var j =0;j<str.length;j++){
+                    var obj = JSON.parse(str[j]);
+                    value12[j]=new Array();
+                    value12[j][0]=parseInt(obj.get("lon"))-100;
+                    value12[j][1]=parseInt(obj.get("lat"));
+                    value12[j][2]=parseInt(obj.get("value"));
+                }
+                str = document.getElementById("heatmap_0");
+                str = str.innerHTML;
+                str=str.replace("[","");
+                str=str.replace("]","");
+                str=str.split(",");
+                var value18=new Array();
+                for (var j =0;j<str.length;j++){
+                    var obj = JSON.parse(str[j]);
+                    value18[j]=new Array();
+                    value18[j][0]=parseInt(obj.get("lon"))-100;
+                    value18[j][1]=parseInt(obj.get("lat"));
+                    value18[j][2]=parseInt(obj.get("value"));
+                }
+                option = {
+                    baseOption:{
+                        timeline:{
+                            axisType:'category',
+                            autoPlay:false,
+                            playInterval:1000,
+                            data:['0','6','12','18'],
+                            label:{
+                                formatter : function (s) {
+                                    return s+"点";
+                                }
+                            },
+                            bottom:130
                         },
-                        bottom:130
-                    },
-                    title:{
-                    },
-                    tooltip:{
-                        position:'top'
-                    },
-                    animation:false,
-                    grid:{
-                        height:'50%',
-                        y:'10%'
-                    },
-                    xAxis:{
-                        type:'category',
-                        data:Lon,
-                        splitArea:{
-                            show:true
-                        }
-                    },
-                    yAxis:{
-                        type:'category',
-                        data:Lat,
-                        splitArea:{
-                            show:true
-                        }
-                    },
-                    visualMap:{
-                        min:0,
-                        max:203,
-                        calculable:true,
-                        orient:'vertical',
-                        left:'center',
-                        bottom:'15%',
-                        show:false
-                    },
-                    series:[{
-                        name:'Punch Card',
-                        type:'heatmap',
-                        label:{
-                            normal:{
+                        title:{
+                        },
+                        tooltip:{
+                            position:'top'
+                        },
+                        animation:false,
+                        grid:{
+                            height:'50%',
+                            y:'10%'
+                        },
+                        xAxis:{
+                            type:'category',
+                            data:Lon,
+                            splitArea:{
                                 show:true
                             }
                         },
-                        itemStyle:{
-                            emphasis:{
-                                shadowBlur:10,
-                                shadowColor:'rgba(0,0,0,0.5)'
+                        yAxis:{
+                            type:'category',
+                            data:Lat,
+                            splitArea:{
+                                show:true
                             }
-                        }
+                        },
+                        visualMap:{
+                            min:0,
+                            max:203,
+                            calculable:true,
+                            orient:'vertical',
+                            left:'center',
+                            bottom:'15%',
+                            show:false
+                        },
+                        series:[{
+                            name:'Value',
+                            type:'heatmap',
+                            label:{
+                                normal:{
+                                    show:true
+                                }
+                            },
+                            itemStyle:{
+                                emphasis:{
+                                    shadowBlur:10,
+                                    shadowColor:'rgba(0,0,0,0.5)'
+                                }
+                            }
 
-                    }]
-                },
-                options:[
-                    {
-                        title:{text:'0点热力图'},
-                        series:[
-                            {data:value0}
-                        ]
+                        }]
                     },
-                    {
-                        title:{text:'6点热力图'},
-                        series:[
-                            {data:value6}
-                        ]
-                    },
-                    {
-                        title:{text:'12点热力图'},
-                        series:[
-                            {data:value12}
-                        ]
-                    },
-                    {
-                        title:{text:'18点热力图'},
-                        series:[
-                            {data:value18}
-                        ]
+                    options:[
+                        {
+                            title:{text:'0点热力图'},
+                            series:[
+                                {data:value0}
+                            ]
+                        },
+                        {
+                            title:{text:'6点热力图'},
+                            series:[
+                                {data:value6}
+                            ]
+                        },
+                        {
+                            title:{text:'12点热力图'},
+                            series:[
+                                {data:value12}
+                            ]
+                        },
+                        {
+                            title:{text:'18点热力图'},
+                            series:[
+                                {data:value18}
+                            ]
+                        }
+                    ]
+                };
+                if (option && typeof option === "object") {
+                    myChart.setOption(option, true);
+                    window.onresize = function () {
+                        myChart.resize();
                     }
-                ]
-            };
-            if (option && typeof option === "object") {
-                myChart.setOption(option, true);
-                window.onresize = function () {
-                    myChart.resize();
                 }
             }
         </script>
@@ -346,62 +353,67 @@
                     },
                     "json"
                 )
+                avg_year();
             }
         </script>
         <div class="col-md-10" id="container3"></div>
         <script type="text/javascript">
-            var dom = document.getElementById("container3");
-            var myChart = echarts.init(dom);
-            var app = {};
-            option1 = null;
-            var year = [];
-            var value=[];
-            var str = document.getElementById('avg_year').value;
-            var obj= JSON.parse(str);
-            var i = 0;
-            for(var key in obj.getAllKeys()){
-                year[i++] = key;
-            }
-            year.sort();
-            for (var j=0;j<year.length;j++){
-                value[j]=obj.get(year[j]);
-            }
-            option1 = {
-                title:{
-                    text:'蒸发波导高度平均值/年份',
-                    x:'center',
-                    y:'top',
-                    textAlign:'center'
-                },
-                xAxis: {
-                    type: 'category',
-                    data: year
-                },
-                yAxis: {
-                    type: 'value'
-                },
-                series: [{
-                    data:value,
-                    type: 'line',
-                    markLine : {
-                        symbol:"none",
-                        lineStyle: {
-                            normal: {
-                                color:"#3f4dcc",
-                                type: 'solid',
-                            }
-                        },
-                        data : [
-                            {type : 'average', name: '平均值'}
-                        ]
-                    }
-                }]
-            };
-            if (option1 && typeof option1 === "object") {
-                myChart.setOption(option1, true);
-                window.onresize = function () {
-                    myChart.resize();
+            function avg_year() {
+                var dom = document.getElementById("container3");
+                var myChart = echarts.init(dom);
+                var app = {};
+                option1 = null;
+                var year = [];
+                var value=[];
+                var str = document.getElementById('avg_year');
+                str = str.innerHTML;
+                var obj= JSON.parse(str);
+                var i = 0;
+                for(var key in obj.getAllKeys()){
+                    year[i++] = key;
                 }
+                year.sort();
+                for (var j=0;j<year.length;j++){
+                    value[j]=obj.get(year[j]);
+                }
+                option1 = {
+                    title:{
+                        text:'蒸发波导高度平均值/年份',
+                        x:'center',
+                        y:'top',
+                        textAlign:'center'
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: year
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [{
+                        data:value,
+                        type: 'line',
+                        markLine : {
+                            symbol:"none",
+                            lineStyle: {
+                                normal: {
+                                    color:"#3f4dcc",
+                                    type: 'solid',
+                                }
+                            },
+                            data : [
+                                {type : 'average', name: '平均值'}
+                            ]
+                        }
+                    }]
+                };
+                if (option1 && typeof option1 === "object") {
+                    myChart.setOption(option1, true);
+                    window.onresize = function () {
+                        myChart.resize();
+                    }
+                }
+
             }
         </script>
     </div>
@@ -445,53 +457,57 @@
         </script>
         <div class="col-md-5" id="container1"></div>
         <script type="text/javascript">
-            var dom = document.getElementById("container1");
-            var myChart = echarts.init(dom);
-            var app = {};
-            option1 = null;
-            var month = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
-            var value=[];
-            var str = document.getElementById('avg_month').value;
-            var obj= JSON.parse(str);
-            for (var j=0;j<month.length;j++){
-                value[j]=obj.get(month[j]);
-            }
-            option1 = {
-                title:{
-                    text:'蒸发波导高度平均值/月份',
-                    x:'center',
-                    y:'top',
-                    textAlign:'center'
-                },
-                xAxis: {
-                    type: 'category',
-                    data: month
-                },
-                yAxis: {
-                    type: 'value'
-                },
-                series: [{
-                    data:value,
-                    type: 'line',
-                    markLine : {
-                        symbol:"none",
-                        lineStyle: {
-                            normal: {
-                                color:"#3f4dcc",
-                                type: 'solid',
-                            }
-                        },
-                        data : [
-                            {type : 'average', name: '平均值'}
-                        ]
-                    }
-                }]
-            };
-            if (option1 && typeof option1 === "object") {
-                myChart.setOption(option1, true);
-                window.onresize = function () {
-                    myChart.resize();
+            function avg_month() {
+                var dom = document.getElementById("container1");
+                var myChart = echarts.init(dom);
+                var app = {};
+                option1 = null;
+                var month = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
+                var value=[];
+                var str = document.getElementById('avg_month');
+                str = str.innerHTML;
+                var obj= JSON.parse(str);
+                for (var j=0;j<month.length;j++){
+                    value[j]=obj.get(month[j]);
                 }
+                option1 = {
+                    title:{
+                        text:'蒸发波导高度平均值/月份',
+                        x:'center',
+                        y:'top',
+                        textAlign:'center'
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: month
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [{
+                        data:value,
+                        type: 'line',
+                        markLine : {
+                            symbol:"none",
+                            lineStyle: {
+                                normal: {
+                                    color:"#3f4dcc",
+                                    type: 'solid',
+                                }
+                            },
+                            data : [
+                                {type : 'average', name: '平均值'}
+                            ]
+                        }
+                    }]
+                };
+                if (option1 && typeof option1 === "object") {
+                    myChart.setOption(option1, true);
+                    window.onresize = function () {
+                        myChart.resize();
+                    }
+                }
+
             }
         </script>
         <!--<div class="col-md-5" id="container2"></div>-->
@@ -566,9 +582,6 @@
     </div>
 </div>
 <label id="heatmap_0" th:text="${heatmap0}"></label>
-<label id="heatmap_6" th:text="${heatmap6}"></label>
-<label id="heatmap_12" th:text="${heatmap12}"></label>
-<label id="heatmap_18" th:text="${heatmap18}"></label>
 <label id="avg_year" th:text="${avg_year}"></label>
 <label id="avg_month" th:text="${avg_month}"></label>
 </body>
