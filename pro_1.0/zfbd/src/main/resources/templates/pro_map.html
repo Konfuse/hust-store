@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Project</title>
+
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="webjars/jquery/3.3.1/jquery.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+
+    <script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="webjars/bootstrap-datetimepicker/2.3.5/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=gtMtpWtlpiINsGEhwwV7PMXsSKrVTknr"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+
+    <!-- Bootstrap -->
+    <link href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="webjars/bootstrap-datetimepicker/2.3.5/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <style>
+        label{
+            text-align: center;
+        }
+        .col-md-2{
+            margin-top: 140px;
+            margin-bottom: 100px;
+        }
+        .btn{
+            color: #0f0f0f;
+        }
+        .anchorBL{
+            display: none;
+        }
+        #container{
+
+            max-width: 1000px;
+            height: 600px;
+            margin-top: 120px;
+
+        }
+        .row{
+            margin-top: 30px;
+            margin-bottom: 30px;
+            margin-left: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="row">
+                <label>查询类型</label>
+                <select class="form-control" onchange="selectOnchang(this)" id="type">
+                    <option selected="selected" disabled="disabled"  style='display: none' value=''></option>
+                    <option>BDGD</option>
+                    <option>BDQD</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="form-inline">
+                    <label>查询日期</label>
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type='text' class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar">
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-inline">
+                    <button type="button" class="btn btn-default btn-block text-center" onclick="query()">
+                        查询
+                    </button>
+                </div>
+            </div>
+            <script type="text/javascript">
+                var type;
+                var year;
+                var month;
+                var day;
+                function selectOnchang(obj){
+                    type=$("#type").val();
+                }
+                $(function () {
+                    $('.input-group.date').datetimepicker({
+                        format:"yyyy年mm月dd日",
+                        language:'zh-CN',
+                        autoclose:true,
+                        minView:"month"
+                    }).on('changeDate',function (ev) {
+                        year=ev.date.getFullYear().toString();
+                        month=(ev.date.getMonth()+1).toString();
+                        day=ev.date.getDate().toString();
+                    })
+                });
+                function query() {
+                    $.post(
+                        "project",
+                        {"type":type,"year":year,"month":month,"day":day},
+                        function(response){
+                            if(response.success){
+                                alert(response.message);
+                            }
+                        },
+                        "json"
+                    )
+                }
+            </script>
+        </div>
+        <div class="col-md-10" id="container"></div>
+        <script type="text/javascript">
+            var dom = document.getElementById("container");
+            var myChart = echarts.init(dom);
+            option = null;
+            var app={};
+            app.title = '蒸发波导热力图－地图';
+            var value =[
+                [3,100,4],[14,109,3],[23,120,2],[53,150,1],[]
+            ];
+            myChart.setOption(option={
+                animation:false,
+                bmap:{
+                    center:[7,105],
+                    zoom:10,
+                    roam:true,
+                    heatmap:true
+                },
+                visualMap:{
+                    show:false,
+                    top:'top',
+                    min:1,
+                    max:4,
+                    seriesIndex:2,
+                    calculable:true,
+                    inRange:{
+                        color:['blue','green','yellow','red']
+                    }
+
+                },
+                series:[{
+                    type:'heatmap',
+                    coordinateSystem:'bmap',
+                    data:value,
+                    pointSize:2,
+                    blurSize:6
+                }]
+            });
+            if (!app.inNode){
+                var bmap = myChart.getModel().getComponent('bmap').getBMap();
+                bmap.addControl(new BMap.MapTypeControl())
+            }
+            if (option && typeof option === "object") {
+                myChart.setOption(option, true);
+                window.onresize = function () {
+                    myChart.resize();
+                }
+            }
+        </script>
+
+    </div>
+</div>
+
+</body>
+</html>
