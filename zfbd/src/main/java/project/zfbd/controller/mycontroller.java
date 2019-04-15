@@ -79,6 +79,15 @@ public class mycontroller {
         String avg_month = evaporationWaveTableQuery3.queryMonthAverage(valueType3, int_lon2, int_lat2);
         model.addAttribute("avg_month", avg_month);
 
+        String month=request.getParameter("month");
+        int month_pro=0;
+        if(month!=null){
+            month_pro=Integer.parseInt(month);
+        }
+        EvaporationWaveTableQuery evaporationWaveTableQuery4=new EvaporationWaveTableQuery();
+        String probablity_month=evaporationWaveTableQuery4.queryProbabilityOnMonth(valueType3,month_pro,int_lon2,int_lat2);
+        model.addAttribute("probablity_month",probablity_month);
+
         return "zfbd";
     }
 }

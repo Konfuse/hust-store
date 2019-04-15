@@ -1,7 +1,5 @@
-package project.zfbd.service;
+package project.zfbd.utils;
 
-
-import project.zfbd.utils.HBaseUtil;
 
 /**
  * @Author: Konfuse

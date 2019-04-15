@@ -55,7 +55,7 @@
         }
     </style>
 </head>
-<body onload="init()">
+<body>
 <!--导航条-->
 
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -129,11 +129,11 @@
                         {"type1":type,"year":year,"month":month,"day":day},
                         function(response){
                             if(response.success){
-                                alert(response.message);
+                                //
+                                display_heatmap();
                             }
 
                         },
-                        alert(type),
                         "json"
                     )
                 }
@@ -172,7 +172,7 @@
                     {"type2":type,"longitude1":longitude,"latitude1":latitude},
                     function(response){
                         if(response.success){
-                            alert(response.message);
+                            display_avgyear();
                         }
                     },
                     "json"
@@ -212,7 +212,7 @@
                     {"type3":type,"longitude2":longitude,"latitude2":latitude},
                     function(response){
                         if(response.success){
-                            alert(response.message);
+                           display_avgmonth();
                         }
                     },
                     "json"

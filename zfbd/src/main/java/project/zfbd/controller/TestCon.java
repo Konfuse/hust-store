@@ -138,13 +138,16 @@ public class TestCon {
         String type3 = request.getParameter("type3");
         String lon2 = request.getParameter("longitude2");
         String lat2 = request.getParameter("latitude2");
+        String month2 = request.getParameter("month");
         int int_lon2 = 0;
         int int_lat2 = 0;
-        if ((lon2 != null) && (lat2 != null)) {
+        int int_month2 = 0;
+        if ((lon2 != null) && (lat2 != null)&&(month2 != null)) {
             int_lon2 = Integer.parseInt(lon2);
             int_lat2 = Integer.parseInt(lat2);
+            int_month2 = Integer.parseInt(month2);
         }
-        System.out.println(type3+int_lon2+int_lat2);
+        System.out.println(type3+int_lon2+int_lat2+int_month2);
         JSONObject jsonObject  = new JSONObject();
         jsonObject.put("1月","45.2");
         jsonObject.put("2月","51.6");
@@ -159,6 +162,20 @@ public class TestCon {
         jsonObject.put("11月","40.5");
         jsonObject.put("12月","40.5");
         String avg_month=jsonObject.toJSONString();
+
+        JSONObject jsonObject21;
+        jsonObject21 = new JSONObject();
+        jsonObject21.put("0","0.62");
+        jsonObject21.put("1","0.516");
+        jsonObject21.put("2","0.462");
+        jsonObject21.put("3","0.329");
+        jsonObject21.put("4","0.583");
+        jsonObject21.put("5","0.389");
+        jsonObject21.put("6","0.405");
+        jsonObject21.put("7","0.405");
+        String probability_month=jsonObject21.toJSONString();
+
+        model.addAttribute("probability_month",probability_month);
         model.addAttribute("type1",type1);
         model.addAttribute("heatmap0", heatmap0);
         model.addAttribute("heatmap6", heatmap6);
@@ -168,13 +185,13 @@ public class TestCon {
         model.addAttribute("avg_month",avg_month);
 
 
-        return "test";
+        return "zfbd";
     }
 
 
 
     @RequestMapping("/map")
-    public String Mycon1(HttpServletRequest request){
+    public String Mycon1(){
         return "pro_map";
     }
 

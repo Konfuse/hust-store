@@ -1,7 +1,6 @@
-package project.zfbd.service;
+package project.zfbd.utils;
 
 import org.apache.hadoop.hbase.client.Connection;
-import project.zfbd.utils.HBaseUtil;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
