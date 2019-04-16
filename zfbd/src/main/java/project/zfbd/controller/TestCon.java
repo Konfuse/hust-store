@@ -13,7 +13,7 @@ import java.util.List;
 public class TestCon {
     @RequestMapping("/test")
     public String Mycon(HttpServletRequest request, Model model) {
-        String type1 = request.getParameter("type1");
+        String type = request.getParameter("type");
         String date = request.getParameter("date");
         int int_year = 0;
         int int_month = 0;
@@ -26,7 +26,15 @@ public class TestCon {
             int_month = Integer.parseInt(month);
             int_day = Integer.parseInt(day);
         }
-        System.out.println(type1+int_year+int_month+int_day);
+        String lon = request.getParameter("longitude");
+        String lat = request.getParameter("latitude");
+        int int_lon = 0;
+        int int_lat = 0;
+        if ((lon != null) && (lat != null)) {
+            int_lon = Integer.parseInt(lon);
+            int_lat = Integer.parseInt(lat);
+        }
+        System.out.println(type+int_year+int_month+int_day+int_lon+int_lat);
 
         List<String> heatmap0 = new ArrayList<String>();
         JSONObject jsonObject2 = new JSONObject();
@@ -114,16 +122,6 @@ public class TestCon {
         String v13 = jsonObject13.toJSONString();
         heatmap18.add(v13);
 
-        String type2 = request.getParameter("type2");
-        String lon1 = request.getParameter("longitude1");
-        String lat1 = request.getParameter("latitude1");
-        int int_lon1 = 0;
-        int int_lat1 = 0;
-        if ((lon1 != null) && (lat1 != null)) {
-            int_lon1 = Integer.parseInt(lon1);
-            int_lat1 = Integer.parseInt(lat1);
-        }
-        System.out.println(type2+int_lon1+int_lat1);
 
         JSONObject jsonObject1  = new JSONObject();
         jsonObject1.put("2009年","45.2");
@@ -135,32 +133,20 @@ public class TestCon {
         jsonObject1.put("2015年","40.5");
         String avg_year=jsonObject1.toJSONString();
 
-        String type3 = request.getParameter("type3");
-        String lon2 = request.getParameter("longitude2");
-        String lat2 = request.getParameter("latitude2");
-        String month2 = request.getParameter("month");
-        int int_lon2 = 0;
-        int int_lat2 = 0;
-        int int_month2 = 0;
-        if ((lon2 != null) && (lat2 != null)&&(month2 != null)) {
-            int_lon2 = Integer.parseInt(lon2);
-            int_lat2 = Integer.parseInt(lat2);
-            int_month2 = Integer.parseInt(month2);
-        }
-        System.out.println(type3+int_lon2+int_lat2+int_month2);
+
         JSONObject jsonObject  = new JSONObject();
-        jsonObject.put("1月","45.2");
-        jsonObject.put("2月","51.6");
-        jsonObject.put("3月","46.2");
-        jsonObject.put("4月","32.9");
-        jsonObject.put("5月","58.3");
-        jsonObject.put("6月","38.9");
-        jsonObject.put("7月","40.5");
-        jsonObject.put("8月","40.5");
-        jsonObject.put("9月","40.5");
-        jsonObject.put("10月","40.5");
-        jsonObject.put("11月","40.5");
-        jsonObject.put("12月","40.5");
+        jsonObject.put("1","45.2");
+        jsonObject.put("2","51.6");
+        jsonObject.put("3","46.2");
+        jsonObject.put("4","32.9");
+        jsonObject.put("5","58.3");
+        jsonObject.put("6","38.9");
+        jsonObject.put("7","40.5");
+        jsonObject.put("8","40.5");
+        jsonObject.put("9","40.5");
+        jsonObject.put("10","40.5");
+        jsonObject.put("11","40.5");
+        jsonObject.put("12","40.5");
         String avg_month=jsonObject.toJSONString();
 
         JSONObject jsonObject21;
@@ -176,7 +162,7 @@ public class TestCon {
         String probability_month=jsonObject21.toJSONString();
 
         model.addAttribute("probability_month",probability_month);
-        model.addAttribute("type1",type1);
+        model.addAttribute("type",type);
         model.addAttribute("heatmap0", heatmap0);
         model.addAttribute("heatmap6", heatmap6);
         model.addAttribute("heatmap12", heatmap12);

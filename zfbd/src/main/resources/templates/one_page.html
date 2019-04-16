@@ -55,7 +55,7 @@
         }
     </style>
 </head>
-<body>
+<body onload="init()">
 <!--导航条-->
 
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -77,116 +77,81 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2" id="col2">
-            <div class="form-inline">
-                <label>查询类型</label>
-                <select class="form-control" onchange="selectOnchang(this)" id="type1" style="width:200px">
-                    <option selected="selected" disabled="disabled"  style='display: none' value=''></option>
-                    <option>波导高度</option>
-                    <option>波导强度</option>
-                </select>
-            </div>
-            <div class="form-inline">
-                <label>查询日期</label>
-                <div class="form-group">
-                    <div class='input-group date' id='datetimepicker1'>
-                        <input type='text' value='请选择日期' class="form-control" />
-                        <span class="input-group-addon">
+            <form id="form1" action="/project" method="post">
+                <div class="form-inline">
+                    <label>查询类型</label>
+                    <select class="form-control" name="type1" id="type1" style="width:200px">
+                        <option selected="selected" disabled="disabled"  style='display: none' value=''></option>
+                        <option>波导高度</option>
+                        <option>波导强度</option>
+                    </select>
+                </div>
+                <div class="form-inline">
+                    <label>查询日期</label>
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type='text' value=' ' class="form-control" name="date" id="date"/>
+                            <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar">
                                 </span>
                             </span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
             <div class="form-inline">
                 <button type="button" class="btn btn-default btn-block text-center" onclick="query1()">
                     查询
                 </button>
             </div>
-            <script type="text/javascript">
-                var type;
-                var year;
-                var month;
-                var day;
-                function selectOnchang(obj){
-                    type=$("#type1").val();
-                }
-                $(function () {
-                    $('.input-group.date').datetimepicker({
-                        format:"yyyy年mm月dd日",
-                        language:'zh-CN',
-                        autoclose:true,
-                        minView:"month"
-                    }).on('changeDate',function (ev) {
-                        year=ev.date.getFullYear().toString();
-                        month=(ev.date.getMonth()+1).toString();
-                        day=(ev.date.getDate()).toString();
-                    })
-                });
-
-                function query1() {
-                    var viewmodel = avalon.define({
-                        $id:"heatmap",
-                        datalist:{},
-                        request:function(){
-                            $.ajax({
-                                type:"post",
-                                url:"/heatmap",
-                                data:{"type1":type,"year":year,"month":month,"day":day},
-                                success:function (data) {
-                                    viewmodel.datalist=data;
-                                    display_heatmap(dataList);
-                                }
-                            });
-                        }
-
-                    });
-                }
-            </script>
         </div>
-        <div class="col-md-10" id="container" ms-controller="heatmap"></div>
+        <script type="text/javascript">
+            $(function () {
+                $('.input-group.date').datetimepicker({
+                    format:"yyyy-mm-dd",
+                    language:'zh-CN',
+                    autoclose:true,
+                    minView:"month",
+                    todayBtn:true,
+                    defaultDate:+7
+                })
+            });
+
+            function query1() {
+                document.getElementById("form1").submit();
+            }
+        </script>
+        <div class="col-md-10" id="container"></div>
     </div>
 </div>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
-            <div class="form-inline">
-                <label>经度</label>
-                <input type="text" class="form-control" placeholder="请输入经度" id="longitude1">
-            </div>
-            <div class="form-inline">
-                <label>纬度</label>
-                <input type="text" class="form-control" placeholder="请输入纬度" id="latitude1">
-            </div>
-            <div class="form-inline">
-                <label>查询类型</label></br>
-                <input type="radio" name="optionsRadiosinline" id="optionsRadios1" value="波导高度" checked> 波导高度
-                <input type="radio" name="optionsRadiosinline" id="optionsRadios2"  value="波导强度"> 波导强度
-            </div>
+            <form action="/project" method="post" id="form2">
+                <div class="form-inline">
+                    <label>经度</label>
+                    <input type="text" class="form-control" placeholder="请输入经度" name="longitude1" id="longitude1">
+                </div>
+                <div class="form-inline">
+                    <label>纬度</label>
+                    <input type="text" class="form-control" placeholder="请输入纬度" name="latitude1" id="latitude1">
+                </div>
+                <div class="form-inline">
+                    <label>查询类型</label>
+                    <select class="form-control" name="type2" id="type2" style="width:200px">
+                        <option selected="selected" disabled="disabled"  style='display: none' value=''></option>
+                        <option>波导高度</option>
+                        <option>波导强度</option>
+                    </select>
+                </div>
+            </form>
             <div class="form-inline">
                 <button type="button" class="btn btn-default btn-block" onclick="query2()">查询</button>
             </div>
         </div>
         <script type="text/javascript">
             function query2() {
-                var longitude = $("#longitude1").val();
-                var latitude=$("#latitude1").val();
-                var type=$('input:radio:checked').val();
-                var viewmodel = avalon.define({
-                    $id:"avgyear",
-                    datalist:{},
-                    request:function(){
-                        $.ajax({
-                            type:"post",
-                            url:"/avgyear",
-                            data:{"type2":type,"longitude1":longitude,"latitude1":latitude},
-                            success:function (data) {
-                                viewmodel.datalist=data;
-                                display_avgyear(dataList);
-                            }
-                        });
-                    }
-
-                });
+                document.getElementById("form2").submit();
             }
         </script>
         <div class="col-md-10" id="container3"></div>
@@ -195,48 +160,54 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
-            <div class="form-inline">
-                <label>经度</label>
-                <input type="text" class="form-control" placeholder="请输入经度" id="longitude2">
-            </div>
-            <div class="form-inline">
-                <label>纬度</label>
-                <input type="text" class="form-control" placeholder="请输入纬度" id="latitude2">
-            </div>
-            <div class="form-inline">
-                <label>查询类型</label></br>
-                <input type="radio" name="optionsRadiosinline" id="optionsRadios3" value="波导高度" checked> 波导高度
-                <input type="radio" name="optionsRadiosinline" id="optionsRadios4"  value="波导强度"> 波导强度
-            </div>
+            <form action="/project" method="post" id="form3">
+                <div class="form-inline">
+                    <label>经度</label>
+                    <input type="text" class="form-control" placeholder="请输入经度" name="longitude2" id="longitude2">
+                </div>
+                <div class="form-inline">
+                    <label>纬度</label>
+                    <input type="text" class="form-control" placeholder="请输入纬度" name="latitude2" id="latitude2">
+                </div>
+                <div class="form-inline">
+                    <label>查询类型</label>
+                    <select class="form-control" name="type3" id="type3" style="width:200px">
+                        <option selected="selected" disabled="disabled"  style='display: none' value=''></option>
+                        <option>波导高度</option>
+                        <option>波导强度</option>
+                    </select>
+                </div>
+                <div class="form-inline">
+                    <label>月份</label>
+                    <select class="form-control" name="month" id="month" style="width:200px">
+                        <option selected="selected" disabled="disabled"  style='display: none' value=''></option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                    </select>
+                </div>
+            </form>
             <div class="form-inline">
                 <button type="button" class="btn btn-default btn-block" onclick="query3()">查询</button>
             </div>
         </div>
         <script type="text/javascript">
             function query3() {
-                var longitude = $("#longitude2").val();
-                var latitude=$("#latitude2").val();
-                var type=$('input:radio:checked').val();
-                var viewmodel = avalon.define({
-                    $id:"avgyear",
-                    datalist:{},
-                    data:
-                    request:function(){
-                        $.ajax({
-                            type:"post",
-                            url:"/avgyear",
-                            data:{"type3":type,"longitude2":longitude,"latitude2":latitude},
-                            success:function (data) {
-                                viewmodel.datalist=data;
-                                display_avgyear(dataList);
-                            }
-                        });
-                    }
-
-                });
+                document.getElementById("form3").submit();
             }
         </script>
         <div class="col-md-5" id="container1">
+        </div>
+        <div class="col-md-5" id="container2">
         </div>
         <script type="text/javascript" th:inline="javascript">
             function find_min(l) {
@@ -285,18 +256,15 @@
                 var value18=[];
                 var min_lon=find_min(Lon);
                 var min_lat=find_min(Lat);
-                var type1 =$("#type1").val();;
+                var type1 =[[${type1}]];
                 var min=0;
                 var max;
-                console.log("%s",type1);
                 if ("波导高度" == type1){
                     max=40;
                 }
                 else{
                     max=203;
                 }
-                console.log("%s,%d",type1,max);
-                alert(type1);
                 init_value(value0,Lon.length,Lat.length);
                 init_value(value6,Lon.length,Lat.length);
                 init_value(value12,Lon.length,Lat.length);
@@ -350,7 +318,7 @@
                             orient:'vertical',
                             left:'center',
                             bottom:'15%',
-                            show:false
+                            show:false,
                         },
                         series:[{
                             name:'Value',
@@ -364,8 +332,7 @@
                                 emphasis:{
                                     shadowBlur:10,
                                     shadowColor:'rgba(0,0,0,0.5)'
-                                },
-                                opacity:1
+                                }
                             }
 
                         }]
@@ -404,7 +371,7 @@
                     }
                 }
             }
-            function display_avgyear(datalist) {
+            function display_avgyear() {
                 var dom = document.getElementById("container3");
                 var myChart = echarts.init(dom);
                 var app = {};
@@ -412,7 +379,7 @@
                 var year=[]
                 var value=[];
                 var i=0;
-                var s = datalist;
+                var s = [[${avg_year}]];
                 var obj=JSON.parse(s);
                 for (var key in obj) {
                     year[i++] = key;
@@ -423,7 +390,7 @@
                 }
                 option1 = {
                     title:{
-                        text:'蒸发波导高度平均值/年份',
+                        text:'蒸发波导平均值/年份',
                         x:'center',
                         y:'top',
                         textAlign:'center'
@@ -461,15 +428,14 @@
                     }
                 }
             }
-            function display_avgmonth(datalist) {
+            function display_avgmonth() {
                 var dom = document.getElementById("container1");
                 var myChart = echarts.init(dom);
                 var app = {};
                 option1 = null;
-                //var month = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
                 var month=[];
                 var value=[];
-                var s = datalist;
+                var s = [[${avg_month}]];
                 var obj=JSON.parse(s);
                 var i=0;
                 for (var key in obj) {
@@ -481,7 +447,7 @@
                 }
                 option1 = {
                     title:{
-                        text:'蒸发波导高度平均值/月份',
+                        text:'蒸发波导平均值/月份',
                         x:'center',
                         y:'top',
                         textAlign:'center'
@@ -519,85 +485,94 @@
                     }
                 }
             }
+            function  display_pro() {
+                var dom = document.getElementById("container2");
+                var myChart = echarts.init(dom);
+                var app = {};
+                option = null;
+                var s = [[${probability_month}]];
+                var obj=JSON.parse(s);
+                var data = [];
+                for (var j =0;j<9;j++){
+                    data[j] = new Array();
+                }
+                data[0][0]="probability";
+                data[0][1]="catalog";
+                for (var j=1;j<9;j++) {
+                    var target = (j-1).toString();
+                    data[j][0]=parseFloat(obj[target]);
+                }
+                data[1][1]="0-5";
+                data[2][1]="5-10";
+                data[3][1]="10-15";
+                data[4][1]="15-20";
+                data[5][1]="20-25";
+                data[6][1]="25-30";
+                data[7][1]="30-35";
+                data[8][1]="35-40";
+                var option = {
+                    title:{
+                        text:'蒸发波导概率分布/月份',
+                        x:'center',
+                        y:'top',
+                        textAlign:'center'
+                    },
+                    dataset: {
+                        source: data
+                    },
+                    grid: {containLabel: true},
+                    xAxis: {name: '概率'},
+                    yAxis: {
+                        type: 'category',
+                        name:'数值范围'
+                    },
+                    visualMap: {
+                        orient: 'horizontal',
+                        left: 'center',
+                        min: 0,
+                        max: 1,
+                        text: ['High Probability', 'Low Probability'],
+                        // Map the score column to color
+                        dimension: 0,
+                        inRange: {
+                            color: ['#D7DA8B', '#E15457']
+                        }
+                    },
+                    series: [
+                        {
+                            type: 'bar',
+                            encode: {
+                                x: data[0][0],
+                                y: data[0][1]
+                            },
+                            itemStyle:{
+                                normal:{
+                                    label:{
+                                        show:true,
+                                        position:'right'
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                };
+                if (option && typeof option === "object"){
+                    myChart.setOption(option, true);
+                    window.onresize = function () {
+                        myChart.resize();
+                    }
+                }
+
+            }
             function init() {
-                alert("gyugfd");
+                display_heatmap();
                 display_avgyear();
                 display_avgmonth();
-                display_heatmap();
+                display_pro();
 
             }
 
         </script>
-        <!--<script async defer src="https://api.map.baidu.com/api?v=2.0&ak=gtMtpWtlpiINsGEhwwV7PMXsSKrVTknr&callback=init()" ></script>-->
-        <!--<div class="col-md-5" id="container2"></div>-->
-        <!--<script type="text/javascript">-->
-        <!--var dom = document.getElementById("container2");-->
-        <!--var myChart = echarts.init(dom);-->
-        <!--var app = {};-->
-        <!--option = null;-->
-        <!--var option = {-->
-        <!--dataset: {-->
-        <!--source: [-->
-        <!--['BDGD_score', 'month'],-->
-        <!--[19.2, '1月'],-->
-        <!--[1.9, '2月'],-->
-        <!--[13.4, '3月'],-->
-        <!--[11.7, '4月'],-->
-        <!--[19.2, '5月'],-->
-        <!--[19.2, '6月'],-->
-        <!--[19.2, '7月'],-->
-        <!--[19.2, '8月'],-->
-        <!--[19.2, '9月'],-->
-        <!--[19.2, '10月'],-->
-        <!--[19.2, '11月'],-->
-        <!--[19.2, '12月']-->
-        <!--]-->
-        <!--},-->
-        <!--grid: {containLabel: true},-->
-        <!--xAxis: {name: '波导高度'},-->
-        <!--yAxis: {-->
-        <!--type: 'category',-->
-        <!--name:'月份'-->
-        <!--},-->
-        <!--visualMap: {-->
-        <!--orient: 'horizontal',-->
-        <!--left: 'center',-->
-        <!--min: 1.9,-->
-        <!--max: 19.2,-->
-        <!--text: ['High Score', 'Low Score'],-->
-        <!--// Map the score column to color-->
-        <!--dimension: 0,-->
-        <!--inRange: {-->
-        <!--color: ['#D7DA8B', '#E15457']-->
-        <!--}-->
-        <!--},-->
-        <!--series: [-->
-        <!--{-->
-        <!--type: 'bar',-->
-        <!--encode: {-->
-        <!--// Map the "amount" column to X axis.-->
-        <!--x: 'BDGD_score',-->
-        <!--// Map the "product" column to Y axis-->
-        <!--y: 'month'-->
-        <!--},-->
-        <!--itemStyle:{-->
-        <!--normal:{-->
-        <!--label:{-->
-        <!--show:true,-->
-        <!--position:'right'-->
-        <!--}-->
-        <!--}-->
-        <!--}-->
-        <!--}-->
-        <!--]-->
-        <!--};-->
-        <!--if (option && typeof option === "object"){-->
-        <!--myChart.setOption(option, true);-->
-        <!--window.onresize = function () {-->
-        <!--myChart.resize();-->
-        <!--}-->
-        <!--}-->
-        <!--</script>-->
     </div>
 </div>
 </body>
